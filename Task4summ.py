@@ -3,7 +3,9 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
-def create_ring_network(n, r):
+'''Your task is to implement a function for creating ring and small world networks.'''
+
+def make_ring_network(n, r):
     network = {}
     for i in range(n):
         connected_nodes = set()
@@ -13,8 +15,8 @@ def create_ring_network(n, r):
         network[i] = connected_nodes
     return network
 
-def create_small_world_network(n, r, p):
-    network = create_ring_network(n, r)
+def make_small_world_network(n, r, p):
+    network = make_ring_network(n, r)
     for node in network:
         for target in list(network[node]):
             if random.random() < p:
@@ -48,19 +50,19 @@ def main():
     if args.ring_network:
         n_nodes = args.ring_network
         connectivity_range = 1  
-        network = create_ring_network(n_nodes, connectivity_range)
+        network = make_ring_network(n_nodes, connectivity_range)
         plot_network(network, f"Ring Network (N={n_nodes}, Range={connectivity_range})")
     elif args.small_world:
         n_nodes = args.small_world
         connectivity_range = args.range  
         rewiring_probability = args.rewiring_probability  
-        network = create_small_world_network(n_nodes, connectivity_range, rewiring_probability)
+        network = make_small_world_network(n_nodes, connectivity_range, rewiring_probability)
         plot_network(network, f"Small-World Network (N={n_nodes}, Range={connectivity_range}, Rewiring Probability={rewiring_probability})")
 
 if __name__ == "__main__":
     main()
 
-#ask about this and see if it needs changing
+#should i edit this?
 def test_networks():
 
 	#Ring network
