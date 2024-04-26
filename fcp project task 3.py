@@ -74,34 +74,37 @@ class Network:
             return node_count
         # -1 to subtract original node
         return node_count-1
-    def get_mean_path_length(self):
-        def shortest_path_length(start_node):
-            # list where 0 = unvisited and 1 = visited
-            visited = [0] * len(self.nodes)
-            # to set number of edges as distance
-            distance = [0] * len(self.nodes)
-            visited_list = [start_node]
-            # to set as  visited
-            visited[start_node.index] = 1
 
-            while visited_list:
-                current_node = visited_list.pop(0)
-                # loop to check for all connections
-                for i, connection in enumerate(current_node.connections):
-                    if connection == 1 and not visited[i]:
-                        visited[i] = 1
-                        # adds 1 to the distance
-                        distance[i] = distance[current_node.index] + 1
-                        # adds node to visited list
-                        visited_list.append(self.nodes[i])
-            return sum(distance)
+    def shortest_path_length(self, start_node):
+        # list where 0 = unvisited and 1 = visited
+        visited = [0] * len(self.nodes)
+        # to set number of edges as distance
+        distance = [0] * len(self.nodes)
+        visited_list = [start_node]
+        # to set as  visited
+        visited[start_node.index] = 1
+
+        while visited_list:
+            current_node = visited_list.pop(0)
+            # loop to check for all connections
+            for i, connection in enumerate(current_node.connections):
+                if connection == 1 and not visited[i]:
+                    visited[i] = 1
+                    # adds 1 to the distance
+                    distance[i] = distance[current_node.index] + 1
+                    # adds node to visited list
+                    visited_list.append(self.nodes[i])
+        return sum(distance)
+
+    def get_mean_path_length(self):
+
         # list including distances between all nodes
         path_lenths_list=[]
         total_shortest_paths = 0
         for start_node in self.nodes:
-            total_shortest_paths += shortest_path_length(start_node)
+            total_shortest_paths += self.shortest_path_length(start_node)
             # adds shortest distance divided by number of connections to the list
-            path_lenths_list.append(shortest_path_length(start_node) / network.get_num_connected_nodes(start_node))
+            path_lenths_list.append(self.shortest_path_length(start_node) / network.get_num_connected_nodes(start_node))
         # divides total distance by number of nodes for mean
         return sum(path_lenths_list)/ len(self.nodes)
 
@@ -153,7 +156,7 @@ if '-test_network' in sys.argv:
         new_node = Node(0, node_number, connections=connections)
         nodes.append(new_node)
     network = Network(nodes)
-
+    print("passed")
     assert (network.get_mean_degree() == num_nodes - 1), network.get_mean_degree()
     assert (network.get_mean_clustering() == 1), network.get_mean_clustering()
     assert (network.get_mean_path_length() == 1), network.get_mean_path_length()
