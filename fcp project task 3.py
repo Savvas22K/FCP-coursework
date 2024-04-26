@@ -138,18 +138,6 @@ def main():
     args = parser.parse_args()
     network_size = args.network
 
-    if args.network:
-        network = Network()
-        network.make_random_network(int(network_size))
-        network.plot()
-        mean_degree = network.get_mean_degree()
-        mean_clustering = network.get_mean_clustering()
-        mean_path_length = network.get_mean_path_length()
-
-        print("Mean Degree:", mean_degree)
-        print("Mean Clustering Coefficient:", mean_clustering)
-        print("Mean Path Length:", mean_path_length)
-
     if args.test_network:
         nodes = []
         num_nodes = 10
@@ -163,6 +151,19 @@ def main():
         assert (network.get_mean_degree() == num_nodes - 1), network.get_mean_degree()
         assert (network.get_mean_clustering() == 1), network.get_mean_clustering()
         assert (network.get_mean_path_length() == 1), network.get_mean_path_length()
+        print("test")
 
+    if args.network:
+        network = Network()
+        network.make_random_network(int(network_size))
+
+        mean_degree = network.get_mean_degree()
+        mean_clustering = network.get_mean_clustering()
+        mean_path_length = network.get_mean_path_length()
+
+        print("Mean Degree:", mean_degree)
+        print("Mean Clustering Coefficient:", mean_clustering)
+        print("Mean Path Length:", mean_path_length)
+        network.plot()
 if __name__ == "__main__":
     main()
