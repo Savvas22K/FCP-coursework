@@ -1,7 +1,6 @@
-import sys
 import numpy as np
 import matplotlib.pyplot as plt
-
+import argparse
 
 
 class Node:
@@ -104,7 +103,7 @@ class Network:
         for start_node in self.nodes:
             total_shortest_paths += self.shortest_path_length(start_node)
             # adds shortest distance divided by number of connections to the list
-            path_lenths_list.append(self.shortest_path_length(start_node) / network.get_num_connected_nodes(start_node))
+            path_lenths_list.append(self.shortest_path_length(start_node) / self.get_num_connected_nodes(start_node))
         # divides total distance by number of nodes for mean
         return sum(path_lenths_list)/ len(self.nodes)
 
@@ -131,32 +130,40 @@ class Network:
         plt.scatter([node.index for node in self.nodes], [node.value for node in self.nodes])
         plt.show()
 
-for i in range(len(sys.argv)):
-    if sys.argv[i] == '-network':
-        network_size = int(sys.argv[i+1])
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-network", type=float)
+    parser.add_argument("-test_network", action='store_true')
+
+    args = parser.parse_args()
+    network_size = args.network
+
+    if args.network:
         network = Network()
-        network.make_random_network(network_size)
+        network.make_random_network(int(network_size))
         network.plot()
-    else :
-        continue
-    mean_degree = network.get_mean_degree()
-    mean_clustering = network.get_mean_clustering()
-    mean_path_length = network.get_mean_path_length()
+        mean_degree = network.get_mean_degree()
+        mean_clustering = network.get_mean_clustering()
+        mean_path_length = network.get_mean_path_length()
 
-    print("Mean Degree:", mean_degree)
-    print("Mean Clustering Coefficient:", mean_clustering)
-    print("Mean Path Length:", mean_path_length)
+        print("Mean Degree:", mean_degree)
+        print("Mean Clustering Coefficient:", mean_clustering)
+        print("Mean Path Length:", mean_path_length)
 
-if '-test_network' in sys.argv:
-    nodes = []
-    num_nodes = 10
-    for node_number in range(num_nodes):
-        connections = [1 for val in range(num_nodes)]
-        connections[node_number] = 0
-        new_node = Node(0, node_number, connections=connections)
-        nodes.append(new_node)
-    network = Network(nodes)
-    print("passed")
-    assert (network.get_mean_degree() == num_nodes - 1), network.get_mean_degree()
-    assert (network.get_mean_clustering() == 1), network.get_mean_clustering()
-    assert (network.get_mean_path_length() == 1), network.get_mean_path_length()
+    if args.test_network:
+        nodes = []
+        num_nodes = 10
+        for node_number in range(num_nodes):
+            connections = [1 for val in range(num_nodes)]
+            connections[node_number] = 0
+            new_node = Node(0, node_number, connections=connections)
+            nodes.append(new_node)
+        network = Network(nodes)
+
+        assert (network.get_mean_degree() == num_nodes - 1), network.get_mean_degree()
+        assert (network.get_mean_clustering() == 1), network.get_mean_clustering()
+        assert (network.get_mean_path_length() == 1), network.get_mean_path_length()
+        print("passed")
+
+if __name__ == "__main__":
+    main()
