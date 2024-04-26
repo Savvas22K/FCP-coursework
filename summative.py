@@ -129,23 +129,7 @@ class Network:
                     plt.plot([node.index, x], [node.value, self.nodes[x].value], color='black')
         plt.scatter([node.index for node in self.nodes], [node.value for node in self.nodes])
         plt.show()
-''''''''''
-for i in range(len(sys.argv)):
-    if sys.argv[i] == '-network':
-        network_size = int(sys.argv[i+1])
-        network = Network()
-        network.make_random_network(network_size)
-        network.plot()
-    else :
-        continue
-    mean_degree = network.get_mean_degree()
-    mean_clustering = network.get_mean_clustering()
-    mean_path_length = network.get_mean_path_length()
 
-    print("Mean Degree:", mean_degree)
-    print("Mean Clustering Coefficient:", mean_clustering)
-    print("Mean Path Length:", mean_path_length)
-'''''''''
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-network", type=float)
