@@ -163,7 +163,6 @@ def main():
         assert (network.get_mean_degree() == num_nodes - 1), network.get_mean_degree()
         assert (network.get_mean_clustering() == 1), network.get_mean_clustering()
         assert (network.get_mean_path_length() == 1), network.get_mean_path_length()
-        print("passed")
 
 if __name__ == "__main__":
     main()
