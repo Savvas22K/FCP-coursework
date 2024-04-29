@@ -1,14 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import random
+import argparse
+from matplotlib.colors import Normalize #not accessed
+import math
+
 
 class Node:
 
-	def __init__(self, value, number, connections=None):
-
-		self.index = number
-		self.connections = connections
-		self.value = value
+	def __init__(self, value, index, color=1, connections=None):
+        if connections is None:
+            connections = [0] * 100  #change this if needed
+        self.value = value
+        self.index = index
+        self.color = color
+        self.connections = connections
 
 class Network: 
 
