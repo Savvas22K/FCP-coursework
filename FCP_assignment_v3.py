@@ -132,6 +132,25 @@ def test_networks():
 This section contains code for the Ising Model - task 1 in the assignment
 ==============================================================================================================
 '''
+def neighbours_opinions(population, i, j):
+    """This function finds the 4 neighbours of the selected grid point ensuring wrapping of the grid. The function
+    initialises a list and then stores the value of the opinions of the neighbours in this list.
+     Inputs: population (numpy array)
+             i (integer)
+             j (integer)
+     Returns:
+            opinions_list (list)
+    """
+    # Retrieving the shape of the grid. Where k is the number of rows and m is the number of columns.
+    k, m = population.shape
+    # Initialises an empty list and finds the value of each neighbour and stores them in the new list.
+    opinions_list = []
+    opinions_list.append(population[(i - 1) % m, j])
+    opinions_list.append(population[(i + 1) % m, j])
+    opinions_list.append(population[i, (j + 1) % k])
+    opinions_list.append(population[i, (j - 1) % k])
+    return opinions_list
+
 
 def calculate_agreement(population, row, col, external=0.0):
 	'''
@@ -144,27 +163,42 @@ def calculate_agreement(population, row, col, external=0.0):
 			change_in_agreement (float)
 	'''
 
-	#Your code for task 1 goes here
+	 # Finds value for selected grid point.
+    person = population[row, col]
+    # Collects opinions of neighbours and stores in a list.
+    opinions = neighbours_opinions(population, row, col)
+    # Each neighbour's opinion is multiplied by the value of the opinion for the person selected and all summed together.
+    agreement = 0
+    agreement = sum(person * o for o in opinions)
+    # Value of external influence is multiplied by the value of selected person's opinion and added to the value of the agreement.
+    agreement += external * person
+    return agreement
 
-	return np.random.random() * population
 
-def ising_step(population, external=0.0):
-	'''
-	This function will perform a single update of the Ising model
-	Inputs: population (numpy array)
-			external (float) - optional - the magnitude of any external "pull" on opinion
-	'''
-	
-	n_rows, n_cols = population.shape
-	row = np.random.randint(0, n_rows)
-	col  = np.random.randint(0, n_cols)
+def ising_step(population, external=0.0, alpha=1.0):
+    """
+    This function will perform a single update of the Ising model
+    Inputs: population (numpy array)
+            external (float) - optional - the magnitude of any external "pull" on opinion
+            alpha (float) - how tolerant society is of those who disagree with their neighbours
+    """
 
-	agreement = calculate_agreement(population, row, col, external=0.0)
+    n_rows, n_cols = population.shape
+    # Randomly selects grid point
+    row = np.random.randint(0, n_rows)
+    col = np.random.randint(0, n_cols)
 
-	if agreement < 0:
-		population[row, col] *= -1
-
-	#Your code for task 1 goes here
+    # Calculates agreement for selected point
+    agreement = calculate_agreement(population, row, col, external=0.0)
+    # Flips the person's opinion if negative agreement.
+    # If a non-zero value of alpha is given, the probability a flip occurs is calculated.
+    # If the probability of this is greater than a randomly generated float between 0.0 and 1.0 a flip of opinion occurs.
+    if agreement < 0:
+        population[row, col] *= -1
+    elif alpha:
+        random_prob = random.random()
+        if random_prob < math.e ** (-agreement/alpha):
+            population[row, col] *= -1
 
 def plot_ising(im, population):
 	'''
@@ -246,6 +280,21 @@ This section contains code for the main function- you should write some code for
 
 def main():
 	#You should write some code for handling flags here
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-ising_model", action='store_true')
+    parser.add_argument("-alpha", type=float, default=1)
+    parser.add_argument("-external", type=float, default=0)
+    parser.add_argument("-test_ising", action='store_true')
+
+    args = parser.parse_args()
+    alpha = args.alpha
+    external = args.external
+
+    if args.ising_model:
+        population = np.random.choice([1, -1], size=(100,100))
+        ising_main(population, alpha, external)
+    if args.test_ising:
+        test_ising()
 
 if __name__=="__main__":
 	main()
