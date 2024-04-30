@@ -348,7 +348,7 @@ def ising_step(population, external=0.0, alpha=1.0):
     # Flips the person's opinion if negative agreement.
     # If a non-zero value of alpha is given, the probability a flip occurs is calculated.
     # If the probability of this is greater than a randomly generated float between 0.0 and 1.0 a flip of opinion occurs.
-    if agreement < 0:
+    if agreement <= 0:
         population[row, col] *= -1
     elif alpha:
         random_prob = random.random()
