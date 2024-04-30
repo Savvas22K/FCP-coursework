@@ -344,7 +344,7 @@ def ising_step(population, external=0.0, alpha=1.0):
     col = np.random.randint(0, n_cols)
 
     # Calculates agreement for selected point
-    agreement = calculate_agreement(population, row, col, external=0.0)
+    agreement = calculate_agreement(population, row, col, external)
     # Flips the person's opinion if negative agreement.
     # If a non-zero value of alpha is given, the probability a flip occurs is calculated.
     # If the probability of this is greater than a randomly generated float between 0.0 and 1.0 a flip of opinion occurs.
