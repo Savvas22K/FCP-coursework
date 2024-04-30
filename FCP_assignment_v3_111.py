@@ -322,7 +322,6 @@ def calculate_agreement(population, row, col, external=0.0):
     # Collects opinions of neighbours and stores in a list.
     opinions = neighbours_opinions(population, row, col)
     # Each neighbour's opinion is multiplied by the value of the opinion for the person selected and all summed together.
-    agreement = 0
     agreement = sum(person * o for o in opinions)
     # Value of external influence is multiplied by the value of selected person's opinion and added to the value of the agreement.
     agreement += external * person
