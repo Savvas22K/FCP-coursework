@@ -45,25 +45,25 @@ class Society:
         return [ind.opinion for ind in self.individuals]
 
 
-class Node:
+class Node: #Representing a node in network
 
     def __init__(self, value, index, color=1, connections=None):
         if connections is None:
-            connections = [0] * 100  # change this if needed
+            connections = [0] * 100  #Adding in a default values for the nodes
         self.value = value
         self.index = index
         self.color = color
         self.connections = connections
 
 
-class Network:
+class Network: #Managing the networks of the nodes and creating networks
 
     def __init__(self, nodes=None):
 
         if nodes is None:
             self.nodes = []
         else:
-            self.nodes = nodes
+            self.nodes = nodes #Initialising with a list of nodes
 
     def get_mean_degree(self):
         # Your code  for task 3 goes here
@@ -170,22 +170,22 @@ class Network:
                 if np.random.random() < connection_probability:
                     node.connections[neighbour_index] = 1
                     self.nodes[neighbour_index].connections[index] = 1
-
-    def make_ring_network(self, N, neighbour_range=1):  # task 4
-        colors = cm.hot(np.linspace(0, 1, N))  # for the colors
+#Task 4
+    def make_ring_network(self, N, neighbour_range=1):  #Creating a ring network while having each node connected to its neighbour
+        colors = cm.hot(np.linspace(0, 1, N))  #Color map for the nodes
         self.nodes = []
         for node_number in range(N):
-            connections = [0] * N
+            connections = [0] * N #Creating symmetrcial connections in the neighbour range 
             for j in range(1, neighbour_range + 1):
                 connections[(node_number - j) % N] = 1
                 connections[(node_number + j) % N] = 1
             self.nodes.append(Node(0, node_number, colors[node_number], connections=connections))
 
-    def make_small_world_network(self, N, re_wire_prob=0.2):
-        colors = cm.hot(np.linspace(0, 1, N))  # for the colors
+    def make_small_world_network(self, N, re_wire_prob=0.2): #Generating a small world network from a ring network while using a probability of 0.2
+        colors = cm.hot(np.linspace(0, 1, N))  #Color map for the nodes
         self.make_ring_network(N, 1)
         for i, node in enumerate(self.nodes):
-            node.color = colors[i]  # assigns the color
+            node.color = colors[i]  #Assigning colors
             targets_to_consider = list(enumerate(node.connections))
             for idx, connected in targets_to_consider:
                 if connected and random.random() < re_wire_prob:
@@ -203,17 +203,17 @@ class Network:
 
         num_nodes = len(self.nodes)
         network_radius = num_nodes * 10
-        node_radius = 0.2 * network_radius  # to make the nodes bigger
+        node_radius = 0.2 * network_radius  #Re-sizing the nodes to make them bigger 
         ax.set_xlim([-1.1 * network_radius, 1.1 * network_radius])
         ax.set_ylim([-1.1 * network_radius, 1.1 * network_radius])
 
-        for node in self.nodes:  # not the same as starter code
+        for node in self.nodes:  #Using a for loop for the color and size of the nodes
             node_angle = node.index * 2 * np.pi / num_nodes
             node_x = network_radius * np.cos(node_angle)
             node_y = network_radius * np.sin(node_angle)
 
             circle = plt.Circle((node_x, node_y), node_radius, color=node.color)
-            ax.add_patch(circle)  # for making the nodes bigger
+            ax.add_patch(circle)  #For making the nodes bigger
 
             for neighbour_index, connected in enumerate(node.connections):
                 if connected:
@@ -530,7 +530,7 @@ This section contains code for the main function- you should write some code for
 '''
 
 
-def main():
+def main(): #Arguments that help generate the desired networks 
     # You should write some code for handling flags here
     parser = argparse.ArgumentParser()
     parser.add_argument("-ising_model", action='store_true')
@@ -578,12 +578,12 @@ def main():
         print("Mean Path Length:", mean_path_length)
         network.plot_network()
     # task 4
-    if args.small_world:
-        n_nodes = args.small_world
+    if args.small_world: #Checking if a small world network or ring network is desired and plotting
+        n_nodes = args.small_world #Number for a small world network
         network = Network([])
         network.make_small_world_network(n_nodes)
         network.plot()
-    if args.ring_network:
+    if args.ring_network: #Number of nodes for a ring network
         n_nodes = args.ring_network
         network = Network([])
         network.make_ring_network(n_nodes)
@@ -601,4 +601,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() #Running the script in the main program
