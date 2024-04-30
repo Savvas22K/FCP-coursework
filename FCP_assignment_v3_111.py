@@ -503,7 +503,7 @@ def ising_main_network(network, alpha=None, external=0.0):
     plot_network(network)
 def plot_network(network):
     plt.figure(figsize=(8, 8))
-    for test in range (100):
+    for timestep in range (50):
         for node in network.nodes:
             for i, connected in enumerate(node.connections):
                 if connected:
