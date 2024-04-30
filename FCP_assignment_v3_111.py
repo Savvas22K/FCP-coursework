@@ -297,13 +297,13 @@ def neighbours_opinions(population, i, j):
 	        opinions_list (list)
 	"""
     # Retrieving the shape of the grid. Where k is the number of rows and m is the number of columns.
-    k, m = population.shape
+    no_rows, no_cols = population.shape
     # Initialises an empty list and finds the value of each neighbour and stores them in the new list.
     opinions_list = []
-    opinions_list.append(population[(i - 1) % m, j])
-    opinions_list.append(population[(i + 1) % m, j])
-    opinions_list.append(population[i, (j + 1) % k])
-    opinions_list.append(population[i, (j - 1) % k])
+    opinions_list.append(population[(i - 1) % no_cols, j])
+    opinions_list.append(population[(i + 1) % no_cols, j])
+    opinions_list.append(population[i, (j + 1) % no_rows])
+    opinions_list.append(population[i, (j - 1) % no_rows])
     return opinions_list
 
 
