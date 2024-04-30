@@ -18,7 +18,7 @@ class Society:
         self.beta = beta
         self.threshold = threshold
 
-    def update_opinions(self):  # creat a list to store the opinions updated
+    def update_opinions(self):  # create a list to store the opinions updated
         updated_opinions = [None] * len(self.individuals)
         # find the index of neighbour
         for _ in range(len(self.individuals)):
