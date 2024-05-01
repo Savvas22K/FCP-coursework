@@ -300,10 +300,10 @@ def neighbours_opinions(population, i, j):
     no_rows, no_cols = population.shape
     # Initialises an empty list and finds the value of each neighbour and stores them in the new list.
     opinions_list = []
-    opinions_list.append(population[(i - 1) %  no_cols, j])
-    opinions_list.append(population[(i + 1) %  no_cols, j])
-    opinions_list.append(population[i, (j + 1) % no_rows])
-    opinions_list.append(population[i, (j - 1) % no_rows])
+    opinions_list.append(population[(i - 1) %  no_rows, j])
+    opinions_list.append(population[(i + 1) %  no_rows, j])
+    opinions_list.append(population[i, (j + 1) % no_cols])
+    opinions_list.append(population[i, (j - 1) % no_cols])
     return opinions_list
 
 
