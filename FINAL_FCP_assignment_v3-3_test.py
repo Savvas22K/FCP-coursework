@@ -561,7 +561,7 @@ def main(): #Arguments that help generate the desired networks
     external = args.external
     network_size = args.network
     # task 1
-    if args.ising_model and not args.use_network:
+    if args.ising_model '''and not args.use_network''':
         rows = 100
         columns = 100
         population = np.random.choice([1, -1], size=(rows, columns))
