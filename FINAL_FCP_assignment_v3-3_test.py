@@ -484,7 +484,50 @@ def test_defuant():
     all_large = all(opinion < 1 for opinion in opinions_at_500)
     assert all_large, 'Test 2 fail'
     print('Test 2 success')
+# Task 5
+# get the opinions from the neighbour
+def neighbours_opinions_network(node, network):
+    opinions_list = [network.nodes[i].value for i, connected in enumerate(node.connections) if connected == 1]
+    return opinions_list
+# update the node value follow the rule
+def ising_step_network(network, external=0.0, alpha=1.0):
+    node = random.choice(network.nodes)
+    opinions = neighbours_opinions_network(node, network)
+    agreement = sum(node.value * o for o in opinions) + external * node.value
 
+    if agreement < 0 or (alpha and random.random() < math.e ** (-agreement / alpha)):
+        node.value *= -1
+def plot_network(network):
+    # Initialising graphs and axes
+    magnitude_of_node = 100
+    fig, ax = plt.subplots()
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+
+    # exist some nodes
+    positions = {node.index: (random.random(), random.random()) for node in network.nodes}
+    # positions = {node.index: (np.cos(2 * np.pi * node.index / len(network.nodes)),
+    #                           np.sin(2 * np.pi * node.index / len(network.nodes)))
+    #              for node in network.nodes}
+    for node in network.nodes:
+        for i, connected in enumerate(node.connections):
+            if connected:
+                ax.plot([positions[node.index][0], positions[i][0]],
+                        [positions[node.index][1], positions[i][1]], 'k-', lw=1)
+    colors = ['red' if node.value < 0 else 'blue' for node in network.nodes]
+    scatter = ax.scatter([pos[0] for pos in positions.values()], [pos[1] for pos in positions.values()], c=colors, s = magnitude_of_node)
+# update the values
+    def update(frame):
+        ising_step_network(network)
+        colors = ['red' if node.value < 0 else 'blue' for node in network.nodes]
+        scatter.set_color(colors)
+        return scatter,
+
+    # create animation
+    ani = FuncAnimation(fig, update, frames=100, interval=200, blit=True)
+
+    plt.show()
 
 '''
 ==============================================================================================================
@@ -512,12 +555,13 @@ def main(): #Arguments that help generate the desired networks
     parser.add_argument('-beta', type=float, default=0.2, help='Beta , default is 0.2')
     parser.add_argument('-threshold', type=float, default=0.2, help='Threshold, default is 0.2')
     parser.add_argument('-test_defuant', action='store_true', help='Run the test functions')
+    parser.add_argument("-use_network", type=int)
     args = parser.parse_args()
     alpha = args.alpha
     external = args.external
     network_size = args.network
     # task 1
-    if args.ising_model:
+    if args.ising_model and not args.use_network:
         rows = 100
         columns = 100
         population = np.random.choice([1, -1], size=(rows, columns))
@@ -556,6 +600,11 @@ def main(): #Arguments that help generate the desired networks
         test_defuant()
     if args.defuant:
         defuant_main(beta=args.beta, threshold=args.threshold)
+    # task 5
+    if args.use_network and args.ising_model:
+        network = Network()
+        network.make_random_network(args.use_network)
+        plot_network(network)
 
 
 if __name__ == "__main__":
