@@ -555,7 +555,7 @@ def main(): #Arguments that help generate the desired networks
     parser.add_argument('-beta', type=float, default=0.2, help='Beta , default is 0.2')
     parser.add_argument('-threshold', type=float, default=0.2, help='Threshold, default is 0.2')
     parser.add_argument('-test_defuant', action='store_true', help='Run the test functions')
-    parser.add_argument("-use_network", type=int)
+    parser.add_argument('-use_network', type=int)
     args = parser.parse_args()
     alpha = args.alpha
     external = args.external
