@@ -4,7 +4,7 @@ import matplotlib.cm as cm
 import math
 import random
 import argparse
-
+from matplotlib.animation import FuncAnimation
 
 class Individual:
     def __init__(self, opinion):
