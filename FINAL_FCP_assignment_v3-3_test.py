@@ -297,13 +297,13 @@ def neighbours_opinions(population, i, j):
 	        opinions_list (list)
 	"""
     # Retrieving the shape of the grid. Where k is the number of rows and m is the number of columns.
-    k, m = population.shape
+    no_rows, no_cols = population.shape
     # Initialises an empty list and finds the value of each neighbour and stores them in the new list.
     opinions_list = []
-    opinions_list.append(population[(i - 1) % m, j])
-    opinions_list.append(population[(i + 1) % m, j])
-    opinions_list.append(population[i, (j + 1) % k])
-    opinions_list.append(population[i, (j - 1) % k])
+    opinions_list.append(population[(i - 1) %  no_cols, j])
+    opinions_list.append(population[(i + 1) %  no_cols, j])
+    opinions_list.append(population[i, (j + 1) % no_rows])
+    opinions_list.append(population[i, (j - 1) % no_rows])
     return opinions_list
 
 
@@ -344,7 +344,7 @@ def ising_step(population, external=0.0, alpha=1.0):
     col = np.random.randint(0, n_cols)
 
     # Calculates agreement for selected point
-    agreement = calculate_agreement(population, row, col, external=0.0)
+    agreement = calculate_agreement(population, row, col, external)
     # Flips the person's opinion if negative agreement.
     # If a non-zero value of alpha is given, the probability a flip occurs is calculated.
     # If the probability of this is greater than a randomly generated float between 0.0 and 1.0 a flip of opinion occurs.
