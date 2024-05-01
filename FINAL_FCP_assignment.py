@@ -350,7 +350,7 @@ def ising_step(population, external=0.0, alpha=1.0):
     if agreement <= 0:
         population[row, col] *= -1
     else:
-	if alpha != 0:
+	    if alpha != 0:
 		random_prob = random.random()
 		if random_prob < math.e ** (-agreement / alpha):
 			population[row, col] *= -1
