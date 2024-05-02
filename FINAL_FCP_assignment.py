@@ -510,10 +510,6 @@ def plot_network(network):
     ax.axis('off')
 
     # exist some nodes
-    positions = {node.index: (random.random(), random.random()) for node in network.nodes}
-    # positions = {node.index: (np.cos(2 * np.pi * node.index / len(network.nodes)),
-    #                           np.sin(2 * np.pi * node.index / len(network.nodes)))
-    #              for node in network.nodes}
     for node in network.nodes:
         for i, connected in enumerate(node.connections):
             if connected:
