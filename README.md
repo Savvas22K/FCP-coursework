@@ -5,6 +5,7 @@ The Ising model does not work with some of the other tasks on some laptops so ru
 Run the " .py" file in terminal
 
 Git link: https://github.com/Savvas22K/FCP-coursework.git 
+
 For task 1, type -ising_model to call the program, -test_ising to test the model, -alpha N where N is a chosen alpha value and -external M where M is chosen external value.
 I was responsible for task 3
 
