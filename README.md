@@ -11,10 +11,15 @@ I was responsible for task 3
 
 For task 2, 
 In order to run the model with default parameters：
+
 python <file name>.py -defuant
+
 To run the code with custom beta and threshold values：
+
 python <file name>.py -defuant -beta <beta value> -threshold <threshold value>
+
 To run the test code of defuant model：
+
 python <file name>.py -test_defuant
 
 For task 3 (done by Savvas Kalisperides), type -network N, where N is the number of nodes desired.
