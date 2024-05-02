@@ -423,6 +423,9 @@ This section contains code for the Defuant Model - task 2 in the assignment
 
 
 def defuant_main(beta=0.2, threshold=0.2):
+    timestep = 350
+    bins_count = 15
+    scatter_size = 20
     print(f"Running defuant model with beta={beta} and threshold={threshold}")
 
     society = Society(size=100, beta=beta, threshold=threshold)
@@ -431,8 +434,7 @@ def defuant_main(beta=0.2, threshold=0.2):
     opinions_over_time = []
 
     # update model
-    for t in range(350):  # the timestep is 350
-        # for substep in range(100): # a substep is 5
+    for t in range(timestep):  # the timestep is 350
         society.update_opinions()  # update the opinions
         opinions_over_time.append(society.collect_opinions())  # collection the opinions
     final_opinions = society.collect_opinions()
@@ -440,14 +442,14 @@ def defuant_main(beta=0.2, threshold=0.2):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))
 
     # plot the histogram
-    ax1.hist(final_opinions, bins=np.linspace(0, 1, 15))
+    ax1.hist(final_opinions, bins=np.linspace(0, 1, bins_count))
     ax1.set_title('Opinion Distribution')
     ax1.set_xlabel('Opinion')
     ax1.set_ylabel('Frequency')
 
     # plot the scatter diagram
     for step, opinions in enumerate(opinions_over_time):
-        ax2.scatter([step] * len(opinions), opinions, color='red', s=20)
+        ax2.scatter([step] * len(opinions), opinions, color='red', s=scatter_size)
     ax2.set_title('Opinion Changes Over Time')
     ax2.set_xlabel('Time Step')
     ax2.set_ylabel('Opinion')
@@ -458,6 +460,8 @@ def defuant_main(beta=0.2, threshold=0.2):
 
 
 def test_defuant():
+    time_step_1 = 100
+    time_step_2 = 500
     # Test 1 when beta = 1, threshold = 0.5
     society_1 = Society(size=100, beta=1, threshold=0.5)
 
@@ -465,7 +469,7 @@ def test_defuant():
     opinions_over_time = []
 
     # update model
-    for t in range(100):  # the timestep is 100
+    for t in range(time_step_1):  # the timestep is 100
         society_1.update_opinions()  # update the opinions
         opinions_over_time.append(society_1.collect_opinions())  # collection the opinions
     large_count = 0
@@ -477,7 +481,7 @@ def test_defuant():
     print('Test 1 success')
     # Test 2 when beta = 0.1, threshold = 1
     society_2 = Society(size=100, beta=0.1, threshold=1)
-    for t in range(500):
+    for t in range(time_step_2):
         society_2.update_opinions()  # update model
     opinions_at_500 = society_2.collect_opinions()
     # check if all the opinions at 500 are less than 0.1
