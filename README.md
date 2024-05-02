@@ -8,6 +8,7 @@ Git link: https://github.com/Savvas22K/FCP-coursework.git
 
 For task 1, type -ising_model to call the program, -test_ising to test the model, -alpha N where N is a chosen alpha value and -external M where M is chosen external value.
 I was responsible for task 3
+
 For task 2, 
 In order to run the model with default parameters：
 python <file name>.py -defuant
