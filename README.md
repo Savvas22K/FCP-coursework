@@ -13,4 +13,4 @@ For task 3 (done by Savvas Kalisperides), type -network N, where N is the number
 
 For task 4, call the program in the terminal using -ring_network 10, -small_world 10, -small_world 10 -re_wire 10. The flag -re_wire changes the re-wiring probability to the chosen number, you can also change the size of the ring and small world networks by altering the numbers beside the flags in the terminal. 
 
-For task 5 we used the Ising model
+For task 5 we used the Ising model. Type -ising_model and -use_network N, where N is the number of nodes desired.
