@@ -508,7 +508,7 @@ def plot_network(network):
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis('off')
-
+    positions = {node.index: (random.random(), random.random()) for node in network.nodes}
     # exist some nodes
     for node in network.nodes:
         for i, connected in enumerate(node.connections):
